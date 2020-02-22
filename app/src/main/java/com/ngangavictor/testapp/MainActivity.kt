@@ -21,8 +21,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-
 
 class MainActivity : AppCompatActivity() {
     lateinit var webView: WebView
@@ -65,7 +63,6 @@ class MainActivity : AppCompatActivity() {
 
         try {
             webView.loadUrl("http://192.168.75.5/websamples/test/index.php")
-//            webView.loadUrl("http://192.168.75.5/websamples/test/pdf/generate.php")
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -101,23 +98,17 @@ class MainActivity : AppCompatActivity() {
     ) {
         when (requestCode) {
             200 -> {
-
                 val perms = HashMap<String, Int>()
-                // Initialize the map with both permissions
                 perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] =
                     PackageManager.PERMISSION_GRANTED
-                // Fill with actual results from user
+
                 if (grantResults.size > 0) {
                     for (i in permissions.indices)
                         perms[permissions[i]] = grantResults[i]
-                    // Check for both permissions
                     if (perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] == PackageManager.PERMISSION_GRANTED) {
-                        // process the normal flow
-                        //else any one or both the permissions are not granted
+
                     } else {
-                        //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
-                        // shouldShowRequestPermissionRationale will return true
-                        //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
+
                         if (ActivityCompat.shouldShowRequestPermissionRationale(
                                 this,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -128,15 +119,12 @@ class MainActivity : AppCompatActivity() {
                                     when (which) {
                                         DialogInterface.BUTTON_POSITIVE -> requestPermissions()
                                         DialogInterface.BUTTON_NEGATIVE ->
-                                            // proceed with logic by disabling the related features or quit the app.
                                             finish()
                                     }
                                 })
                         } else {
                             explain("You need to give some mandatory permissions to continue. Do you want to go to app settings?")
-                            //                            //proceed with logic by disabling the related features or quit the app.
-                        }//permission is denied (and never ask again is  checked)
-                        //shouldShowRequestPermissionRationale will return false
+                        }
                     }
                 }
             }
