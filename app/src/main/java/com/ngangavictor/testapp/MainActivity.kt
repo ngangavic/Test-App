@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         try {
-            webView.loadUrl("http://192.168.75.5/websamples/test/index.php")
+            webView.loadUrl("http://192.168.0.101/websamples/test/index.php")
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -80,6 +80,11 @@ class MainActivity : AppCompatActivity() {
             val downloadManager: DownloadManager =
                 getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             downloadManager.enqueue(request)
+            try {
+                webView.loadUrl("http://192.168.0.101/websamples/test/my-dashboard.php")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
