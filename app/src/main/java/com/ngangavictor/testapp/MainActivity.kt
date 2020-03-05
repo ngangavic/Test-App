@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.action_native->{
-                Toast.makeText(applicationContext,"Menu clicked", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(applicationContext,LoginActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
