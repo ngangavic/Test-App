@@ -82,6 +82,9 @@ class UserActivity : AppCompatActivity() {
                 finish()
                 Toast.makeText(applicationContext,"Logout successful",Toast.LENGTH_SHORT).show()
             }
+            R.id.action_report->{
+                startActivity(Intent(applicationContext,ReportActivity::class.java))
+            }
         }
         return super.onOptionsItemSelected(item)
     }
