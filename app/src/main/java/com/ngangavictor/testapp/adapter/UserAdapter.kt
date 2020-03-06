@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ngangavictor.testapp.R
 import com.ngangavictor.testapp.data.User
 import com.ngangavictor.testapp.holder.UserHolder
-import java.util.ArrayList
+import java.util.*
 
 class UserAdapter(private var context: Context, private val users: ArrayList<User>) :
-    RecyclerView.Adapter<UserHolder>()  {
+    RecyclerView.Adapter<UserHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserHolder {
         val viewHolder: UserHolder?
         val layoutView =

@@ -57,7 +57,7 @@ public class DownloadTask {
             try {
                 if (outputFile != null) {
                     progressDialog.dismiss();
-                    ContextThemeWrapper ctw = new ContextThemeWrapper( context, R.style.AppTheme);
+                    ContextThemeWrapper ctw = new ContextThemeWrapper(context, R.style.AppTheme);
                     final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctw);
                     alertDialogBuilder.setTitle("Document  ");
                     alertDialogBuilder.setMessage("Document Downloaded Successfully ");

@@ -19,7 +19,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -183,14 +182,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu,menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.action_native->{
-                startActivity(Intent(applicationContext,LoginActivity::class.java))
+        when (item.itemId) {
+            R.id.action_native -> {
+                startActivity(Intent(applicationContext, LoginActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

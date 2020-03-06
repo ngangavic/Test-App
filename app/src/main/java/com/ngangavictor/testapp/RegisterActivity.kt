@@ -24,7 +24,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var editTextEmail: EditText
     lateinit var editTextPhone: EditText
     lateinit var queue: RequestQueue
-    lateinit var alert:AlertDialog
+    lateinit var alert: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class RegisterActivity : AppCompatActivity() {
             Response.Listener { response ->
                 Log.d("REGACTIVITY: ", response.toString())
                 val obj = JSONObject(response)
-alert.cancel()
+                alert.cancel()
                 alert.dismiss()
                 if (obj.getString("report") == "0") {
                     successAlert()
@@ -112,18 +112,11 @@ alert.cancel()
     }
 
     private fun loadAlert() {
-        val alertBuilder = AlertDialog.Builder(this,R.style.CustomDialog)
+        val alertBuilder = AlertDialog.Builder(this, R.style.CustomDialog)
         alertBuilder.setCancelable(false)
         setTitle("Success")
-        val progress=ProgressBar(this)
+        val progress = ProgressBar(this)
         alertBuilder.setView(progress)
-//        alertBuilder.setMessage("Registration successful. Check your email for the password.")
-//        alertBuilder.setPositiveButton("OK", { dialog, which ->
-//            dialog.dismiss()
-//            startActivity(Intent(applicationContext, LoginActivity::class.java))
-//            finish()
-//        })
-
         alert = alertBuilder.create()
         alert?.show()
     }

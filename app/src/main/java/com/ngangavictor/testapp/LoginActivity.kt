@@ -1,20 +1,20 @@
 package com.ngangavictor.testapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
-import java.util.HashMap
+import java.util.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -69,10 +69,16 @@ class LoginActivity : AppCompatActivity() {
                 val obj = JSONObject(response)
 
                 if (obj.getString("report") == "0") {
-                    startActivity(Intent(applicationContext, UserActivity::class.java).putExtra("uid",obj.getString("uid")))
+                    startActivity(
+                        Intent(
+                            applicationContext,
+                            UserActivity::class.java
+                        ).putExtra("uid", obj.getString("uid"))
+                    )
                     finish()
                 } else {
-                    Toast.makeText(applicationContext, "Error! Try again.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Error! Try again.", Toast.LENGTH_SHORT)
+                        .show()
                 }
 
             },

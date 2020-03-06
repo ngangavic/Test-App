@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ngangavictor.testapp.R
 import com.ngangavictor.testapp.data.User
 
-class UserHolder (itemView: View, private val catalogObject: List<User>) :
-    RecyclerView.ViewHolder(itemView){
+class UserHolder(itemView: View, private val catalogObject: List<User>) :
+    RecyclerView.ViewHolder(itemView) {
 
     var textViewEmail: TextView
     var textViewPhone: TextView

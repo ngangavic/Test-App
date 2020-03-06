@@ -1,20 +1,20 @@
 package com.ngangavictor.testapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
-import java.util.HashMap
+import java.util.*
 
 class UserActivity : AppCompatActivity() {
 
@@ -29,7 +29,7 @@ class UserActivity : AppCompatActivity() {
         textViewEmail = findViewById(R.id.textViewEmail)
         textViewPhone = findViewById(R.id.textViewPhone)
         queue = Volley.newRequestQueue(this)
-        val uid=intent.getStringExtra("uid")
+        val uid = intent.getStringExtra("uid")
         getData(uid)
     }
 
@@ -71,19 +71,19 @@ class UserActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.user_menu,menu)
+        menuInflater.inflate(R.menu.user_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.action_logout->{
-                startActivity(Intent(applicationContext,LoginActivity::class.java))
+        when (item.itemId) {
+            R.id.action_logout -> {
+                startActivity(Intent(applicationContext, LoginActivity::class.java))
                 finish()
-                Toast.makeText(applicationContext,"Logout successful",Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Logout successful", Toast.LENGTH_SHORT).show()
             }
-            R.id.action_report->{
-                startActivity(Intent(applicationContext,ReportActivity::class.java))
+            R.id.action_report -> {
+                startActivity(Intent(applicationContext, ReportActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
