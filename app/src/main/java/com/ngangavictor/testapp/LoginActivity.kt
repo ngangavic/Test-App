@@ -69,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
                 val obj = JSONObject(response)
 
                 if (obj.getString("report") == "0") {
-                    startActivity(Intent(applicationContext, UserActivity::class.java))
+                    startActivity(Intent(applicationContext, UserActivity::class.java).putExtra("uid",obj.getString("uid")))
                     finish()
                 } else {
                     Toast.makeText(applicationContext, "Error! Try again.", Toast.LENGTH_SHORT).show()
