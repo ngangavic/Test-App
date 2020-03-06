@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var editTextEmail: EditText
     lateinit var editTextPhone: EditText
     lateinit var queue: RequestQueue
+    lateinit var alert:AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +56,7 @@ class RegisterActivity : AppCompatActivity() {
             editTextPhone.requestFocus()
             editTextPhone.error = "Required"
         } else {
+            loadAlert()
             signUpRequest(email, phone)
         }
     }
@@ -66,7 +69,8 @@ class RegisterActivity : AppCompatActivity() {
             Response.Listener { response ->
                 Log.d("REGACTIVITY: ", response.toString())
                 val obj = JSONObject(response)
-
+alert.cancel()
+                alert.dismiss()
                 if (obj.getString("report") == "0") {
                     successAlert()
                 } else {
@@ -85,8 +89,8 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         str.retryPolicy = DefaultRetryPolicy(
-            7000,
-            5,
+            60000,
+            0,
             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
         queue.add(str)
@@ -105,6 +109,23 @@ class RegisterActivity : AppCompatActivity() {
 
         val alert = alertBuilder.create()
         alert.show()
+    }
+
+    private fun loadAlert() {
+        val alertBuilder = AlertDialog.Builder(this,R.style.CustomDialog)
+        alertBuilder.setCancelable(false)
+        setTitle("Success")
+        val progress=ProgressBar(this)
+        alertBuilder.setView(progress)
+//        alertBuilder.setMessage("Registration successful. Check your email for the password.")
+//        alertBuilder.setPositiveButton("OK", { dialog, which ->
+//            dialog.dismiss()
+//            startActivity(Intent(applicationContext, LoginActivity::class.java))
+//            finish()
+//        })
+
+        alert = alertBuilder.create()
+        alert?.show()
     }
 
 }
