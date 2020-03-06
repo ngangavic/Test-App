@@ -1,11 +1,21 @@
 package com.ngangavictor.testapp
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
+import android.webkit.WebView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.DefaultRetryPolicy
@@ -16,8 +26,7 @@ import com.android.volley.toolbox.Volley
 import com.ngangavictor.testapp.adapter.UserAdapter
 import com.ngangavictor.testapp.data.User
 import org.json.JSONArray
-import java.util.ArrayList
-import java.util.HashMap
+import java.util.*
 
 class ReportActivity : AppCompatActivity() {
 
@@ -72,8 +81,7 @@ class ReportActivity : AppCompatActivity() {
                 error.printStackTrace()
                 Toast.makeText(applicationContext, "An error occurred", Toast.LENGTH_SHORT).show()
 
-            })
-        {
+            }) {
 //            override fun getParams(): Map<String, String> {
 //                val param = HashMap<String, String>()
 //                param["uid"] = uid
@@ -86,6 +94,104 @@ class ReportActivity : AppCompatActivity() {
             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
         queue.add(str)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.report_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_download -> {
+//                DownloadTask(this, Api.reportUrl)
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Api.reportUrl))
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun requestPermissions(): Boolean {
+        val writePermission =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val listPermissionsNeeded = ArrayList<String>()
+
+        if (writePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(
+                this,
+                listPermissionsNeeded.toTypedArray(),
+                200
+            )
+            return false
+        }
+        return true
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        when (requestCode) {
+            200 -> {
+                val perms = HashMap<String, Int>()
+                perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] =
+                    PackageManager.PERMISSION_GRANTED
+
+                if (grantResults.size > 0) {
+                    for (i in permissions.indices)
+                        perms[permissions[i]] = grantResults[i]
+                    if (perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] == PackageManager.PERMISSION_GRANTED) {
+
+                    } else {
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            )
+                        ) {
+                            showDialogOK("Service Permissions are required for this app",
+                                DialogInterface.OnClickListener { dialog, which ->
+                                    when (which) {
+                                        DialogInterface.BUTTON_POSITIVE -> requestPermissions()
+                                        DialogInterface.BUTTON_NEGATIVE ->
+                                            finish()
+                                    }
+                                })
+                        } else {
+                            explain("You need to give some mandatory permissions to continue. Do you want to go to app settings?")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun explain(msg: String) {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setMessage(msg)
+            .setPositiveButton("Yes") { paramDialogInterface, paramInt ->
+                startActivity(
+                    Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.parse("package:com.ngangavictor.testapp")
+                    )
+                )
+            }
+            .setNegativeButton("Cancel") { paramDialogInterface, paramInt -> finish() }
+        dialog.show()
+    }
+
+    private fun showDialogOK(message: String, okListener: DialogInterface.OnClickListener) {
+        AlertDialog.Builder(this)
+            .setMessage(message)
+            .setPositiveButton("OK", okListener)
+            .setNegativeButton("Cancel", okListener)
+            .create()
+            .show()
     }
 
 }
